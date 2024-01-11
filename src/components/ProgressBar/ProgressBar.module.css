@@ -1,0 +1,20 @@
+.progress_bar{
+    display: flex;
+    flex-direction: column;
+}
+
+.progress_bar input[type="range"] {
+    accent-color: #44017c;
+    width: 280px;
+}
+
+
+.music_time{
+    display: flex;
+    justify-content: space-between;
+}
+
+.music_time span{
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+}

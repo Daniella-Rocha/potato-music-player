@@ -1,0 +1,11 @@
+.lyrics{
+    text-align: center;
+    padding: 1rem;
+    overflow-y: scroll;
+    width: 35%;
+}
+
+.lyrics p{
+   font-size: 0.8rem;
+   line-height: 1.2rem;
+}

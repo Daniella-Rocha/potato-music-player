@@ -1,0 +1,21 @@
+.input_file label {
+    align-items: center;
+    background-image: linear-gradient(to top, #220130, #2a033e, #33034d, #3c025d, #45026d, #53067e, #610b8f, #6f10a1, #871ab7, #a023cc, #b92ce2, #d435f8);
+    border-radius: 0.6rem;
+    color: #fff;
+    display: flex;
+    font-size: 0.65rem;
+    gap: 0.5rem;
+    justify-content: center;
+    padding: 0.2rem;
+    transition: all ease 400ms;
+    width: 200px;
+}
+
+.input_file label:hover{
+    transform: scale(1.03);
+}
+
+.input_file input[type="file"] {
+    display: none;
+}
