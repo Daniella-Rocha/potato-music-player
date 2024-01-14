@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import useMetadata from '../../hooks/useMetadata';
+import { ThemeContext } from '../../contexts/ThemeContext/ThemeContext';
 
 import { PlayerContext } from '../../contexts/PlayerContext/PlayerContex';
 
@@ -10,9 +10,10 @@ import styles from './Display.module.css';
 
 const Display = ({ isPlaying }) => {
 
-  const { metadata } = useContext(PlayerContext);
+  const { darkTheme } = useContext(ThemeContext);
 
-  const { formatingData } = useMetadata();
+  // context that provides the music data
+  const { metadata, songData } = useContext(PlayerContext);
 
   return (
     metadata &&
@@ -21,14 +22,23 @@ const Display = ({ isPlaying }) => {
       ${styles.display}
       ${isPlaying ? styles.is_playing : ''}
       `}>
-        <img src={tone} alt="" srcSet="" />
-      </div>
-      <div className={styles.display_data}>
+
         {
-          (metadata?.title && metadata?.artist) ?
+          songData.image !== '' ?
+            <img src={typeof songData.image === 'object' ? URL.createObjectURL(songData.image) : songData.image} alt="" srcSet="" />
+            :
+            <img src={tone} alt="" srcSet="" />
+        }
+      </div>
+      <div className={`
+      ${styles.display_data}
+      ${darkTheme ? styles.dark_theme : ''}
+        `}>
+        {
+          (songData.title && songData.artist) ?
             <>
-              <span>{metadata?.title} - {metadata?.album}</span>
-              <span>{formatingData(metadata?.artist)}</span>
+              <span>{songData.title} - {songData.artist}</span>
+              <span>{songData?.album}</span>
             </>
             :
             (<span>Artista desconhecido</span>)

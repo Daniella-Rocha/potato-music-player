@@ -4,7 +4,7 @@ import {PlayerContext} from '../contexts/PlayerContext/PlayerContex';
 
 const usePlayPause = () => {
     
-    const {audioRef, setIsPlaying, setDuration, isPlaying} = useContext(PlayerContext);
+    const {audioRef, setIsPlaying, isPlaying} = useContext(PlayerContext);
 
     // function to turn on the audio
     const handlePlay = () => {

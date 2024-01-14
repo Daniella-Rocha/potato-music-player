@@ -20,13 +20,17 @@ export const PlayerProvider = ({ children }) => {
 
     const [infinityLoop, setInfinityLoop] = useState(false);
 
+    const [showTranslate, setShowTranslate] = useState(false);
+
+    const [fileObj, setFileObj] = useState(null);
+
     const audioRef = useRef(null);
-    
-    const [lyricList, setLyricList] = useState([]);
-    
-    const {searchLyrics, lyric} = useSearchLyric();
-    
-    const {getMetadata, metadata} = useMetadata();
+
+    const [songData, setSongData] = useState({});
+
+    const { searchLyrics, lyric } = useSearchLyric();
+
+    const { getMetadata, metadata, getSongData } = useMetadata();
 
     const handleLoop = () => {
         if (infinityLoop === false) {
@@ -55,7 +59,14 @@ export const PlayerProvider = ({ children }) => {
         searchLyrics,
         lyric,
         getMetadata,
-        metadata
+        metadata,
+        getSongData,
+        showTranslate,
+        setShowTranslate,
+        setSongData,
+        songData,
+        fileObj,
+        setFileObj
     }
     return (
         <PlayerContext.Provider value={values}>

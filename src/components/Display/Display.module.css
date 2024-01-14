@@ -18,11 +18,11 @@
 }
 
 .display img {
-    height: 380px;
+    height: 200px;
     left: -8.6px;
     position: relative;
     top: -4px;
-    width: 380px;
+    width: 200px;
 }
 
 .is_playing::before {
@@ -32,10 +32,10 @@
             #af2eeb 90deg,
             transparent 180deg);
     color: blueviolet;
-    height: 100%;
+    height: 120%;
     position: absolute;
     transition: 0.5s;
-    width: 100%;
+    width: 120%;
 }
 
 .display.is_playing {
@@ -57,6 +57,10 @@
     font-size: 0.8rem;
 }
 
+.dark_theme span{
+    color: #ddc9fd;
+}
+
 @keyframes rotation {
     0% {
         transform: rotate(0deg);
@@ -68,10 +72,10 @@
 }
 
 .is_playing::after {
-    content: '';
     border-radius: 50%;
-    height: 95%;
+    content: '';
+    height: 120%;
     position: absolute;
-    width: 95%;
+    width: 120%;
     z-index: 1;
 }

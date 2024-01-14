@@ -1,7 +1,6 @@
 .container {
     display: flex;
     gap: 1rem;
-    height: 50px;
     justify-content: space-evenly;
     margin: 1rem 0;
     width: 80%;
@@ -36,6 +35,35 @@
     display: block;
 }
 
-.auto_play_on svg{
-    fill: lightgreen;
+.container button.dark_theme{
+    color: #ddc9fd;
+}
+
+@media only screen and (max-width: 400px) {
+    .container {
+        align-items: center;
+        flex-direction: column;
+        gap: 1.2rem;
+        justify-content: space-around;
+        margin: 0.6rem 0;
+        width: 100%;
+    }
+
+    .container> :first-child {
+        display: flex;
+        justify-content: space-around;
+        width: 80%;
+    }
+
+    .container> :nth-child(2) {
+        display: flex;
+        gap: 0.5rem;
+        height: 2rem;
+        margin-bottom: 1rem;
+        width: 20%;
+    }
+
+    .container button {
+        font-size: 1.6rem;
+    }
 }

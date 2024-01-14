@@ -12,10 +12,25 @@
     width: 200px;
 }
 
-.input_file label:hover{
+.input_file label:hover {
     transform: scale(1.03);
 }
 
 .input_file input[type="file"] {
     display: none;
+}
+
+label.dark_theme {
+    background: #ddc9fd;
+    color: #141414;
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 400px) {
+    .input_file label {
+        font-size: 0.85rem;
+        gap: 0.5rem;
+        padding: 0.6rem;
+        width: 250px;
+    }
 }

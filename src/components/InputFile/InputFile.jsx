@@ -1,20 +1,22 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
+
+import { ThemeContext } from "../../contexts/ThemeContext/ThemeContext";
 
 import { PlayerContext } from '../../contexts/PlayerContext/PlayerContex';
 
 import { PlayListContext } from '../../contexts/PlayListContext/PlayListContext';
 
-import { MdEvent, MdOutlineAudioFile } from "react-icons/md";
+import { MdOutlineAudioFile } from "react-icons/md";
 
 import styles from './InputFile.module.css';
 
-const InputFile = ({ setFileObj }) => {
-    // props
-    // setSongSrc, 
+const InputFile = ({ }) => {
+    
+    const {darkTheme} = useContext(ThemeContext);
 
-    const { audioRef, setDuration, setIsPlaying, getMetadata, setSongSrc } = useContext(PlayerContext);
+    const { audioRef, setDuration, getSongData, setSongSrc, getMetadata, songData, setSongData } = useContext(PlayerContext);
 
-    const { searchLyric } = useContext(PlayListContext);
+    const { playList } = useContext(PlayListContext);
 
     const handleChange = async (e) => {
 
@@ -22,34 +24,53 @@ const InputFile = ({ setFileObj }) => {
 
         const data = await getMetadata(file);
 
-        const lyric = searchLyric(data.artist, data.title);
+        const trackData = await getSongData(data);
 
-        const audioFile = {
-            id: Date.now(),
-            name: data.title,
-            album: data.album,
-            artist: data.artist,
-            picture: data.picture,
-            lytic: ''
+        if (trackData.type != 'notfound') {
+            setSongData({
+                id: trackData.mus[0].id,
+                artist: trackData.art.name,
+                album: null,
+                image: trackData.art.pic_medium || '',
+                title: trackData.mus[0].name || '',
+                lyric: trackData.mus[0].text,
+                translate: trackData.mus[0]?.translate?.text || '',
+                objFile: file
+            });
+        } else {
+            console.log(data);
+            setSongData({
+                id: playList.length + 1 || 1,
+                artist: data.artist,
+                album: data.album,
+                image: data.picture,
+                title: data.title,
+                lyric: null,
+                translate: null,
+                objFile: file
+            });
         }
 
         const fileUrl = URL.createObjectURL(file);
 
         setSongSrc(fileUrl);
 
-        setFileObj(audioFile);
-
         audioRef.current.onloadedmetadata = () => {
             setDuration(audioRef.current.duration);
-            audioRef.current.play();
-            setIsPlaying(true);
+            // audioRef.current.play();
+            // setIsPlaying(true);
         };
     }
 
     return (
         <div className={styles.input_file}>
             <form >
-                <label htmlFor="audio">
+                <label
+                    className={`
+                ${darkTheme ? styles.dark_theme: styles.default}
+                `}
+                    htmlFor="audio"
+                >
                     Selecionar música
                     <MdOutlineAudioFile />
                     <input

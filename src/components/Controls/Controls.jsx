@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
 
+import { ThemeContext } from '../../contexts/ThemeContext/ThemeContext';
+
 import { PlayerContext } from "../../contexts/PlayerContext/PlayerContex";
 
 import usePlayPause from "../../hooks/usePlayPause";
@@ -12,28 +14,27 @@ import { PiPlayDuotone, PiPauseDuotone } from "react-icons/pi";
 
 import { SlVolume2 } from "react-icons/sl";
 
-import { MdReplay } from "react-icons/md";
-
 import { PlayListContext } from "../../contexts/PlayListContext/PlayListContext";
 
 import styles from './Controls.module.css';
 
-
 const Controls = () => {
+
+    const { darkTheme } = useContext(ThemeContext);
+
     const {
         isPlaying,
         songSrc,
         setSongSrc,
         audioRef,
         infinityLoop,
-        handleLoop
+        handleLoop,
+        setSongData
     } = useContext(PlayerContext);
 
     const {
         handleNextTrack,
-        handlePreviousTrack,
-        autoPlay,
-        setAutoPlay
+        handlePreviousTrack
     } = useContext(PlayListContext);
 
     const { togglePlayPause } = usePlayPause();
@@ -50,11 +51,13 @@ const Controls = () => {
     }
 
     const handleNextSong = () => {
-        handleNextTrack(setSongSrc);
+        handleNextTrack(setSongSrc, setSongData);
+        audioRef.current.play();
     }
 
     const handlePreviousSong = () => {
-        handlePreviousTrack(setSongSrc);
+        handlePreviousTrack(setSongSrc, setSongData);
+        audioRef.current.play();
     }
 
     const handleVolume = (e) => {
@@ -71,6 +74,9 @@ const Controls = () => {
         <div className={styles.container}>
             <div>
                 <button
+                    className={`
+                ${darkTheme ? styles.dark_theme : styles.default}
+                `}
                     type="button"
                     onClick={handleLoop}
                 >
@@ -82,6 +88,9 @@ const Controls = () => {
 
                 </button>
                 <button
+                    className={`
+                    ${darkTheme ? styles.dark_theme : styles.default}
+                    `}
                     type="button"
                     aria-label="música anterior"
                     onClick={handlePreviousSong}
@@ -89,6 +98,9 @@ const Controls = () => {
                     <FaBackward />
                 </button>
                 <button
+                    className={`
+                    ${darkTheme ? styles.dark_theme : styles.default}
+                    `}
                     type="button"
                     aria-label="play ou pause"
                     onClick={handlePlayPause}
@@ -97,13 +109,16 @@ const Controls = () => {
                     {isPlaying ? <PiPauseDuotone /> : <PiPlayDuotone />}
                 </button>
                 <button
+                    className={`
+                    ${darkTheme ? styles.dark_theme : styles.default}
+                    `}
                     type="button"
                     aria-label="próxima música"
                     onClick={handleNextSong}
                 >
                     <FaForward />
                 </button>
-                <button
+                {/* <button
                     className={`
                 ${styles.auto_play}
                 ${autoPlay ? styles.auto_play_on : ''}
@@ -113,11 +128,14 @@ const Controls = () => {
                     onClick={() => setAutoPlay(!autoPlay)}
                 >
                     <MdReplay />
-                </button>
+                </button> */}
             </div>
 
             <div>
                 <button
+                    className={`
+                   ${darkTheme ? styles.dark_theme : styles.default}
+                   `}
                     type="button"
                     onClick={handleVisibleVolume}
                 >
@@ -125,6 +143,7 @@ const Controls = () => {
                 </button>
                 <input
                     className={`
+                    ${darkTheme ? styles.dark_theme : styles.default}
                 ${styles.volume}
                 ${visibleVolume ? styles.volume_visible : ''}
                 `}

@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 
 import InputFile from "../InputFile/InputFile";
 
@@ -12,6 +12,8 @@ import Lyrics from '../Lyrics/Lyrics';
 
 import { PiPlaylistDuotone } from "react-icons/pi";
 
+import { ThemeContext } from "../../contexts/ThemeContext/ThemeContext";
+
 import { PlayerContext } from "../../contexts/PlayerContext/PlayerContex";
 
 import { PlayListContext } from '../../contexts/PlayListContext/PlayListContext';
@@ -20,33 +22,43 @@ import styles from './Player.module.css';
 
 const Player = () => {
 
+    // darkTheme context
+    const { darkTheme } = useContext(ThemeContext);
+
+    // app context values
     const {
         isPlaying,
         songSrc,
+        setSongSrc,
         currentTime,
         duration,
         audioRef,
         setIsPlaying,
-        setSongSrc,
         setCurrentTime,
         setDuration,
-        infinityLoop
+        infinityLoop,
+        songData,
+        setSongData
     } = useContext(PlayerContext);
 
+    // playlist context values and functions
     const { addToPlayList, handleAutoPlay } = useContext(PlayListContext);
 
-    const [fileObj, setFileObj] = useState(null);
-
+    // volume muted false by default
     const [muted, setMuted] = useState(false);
 
 
+    // update playback current time 
     const handleTimeUpdate = () => {
         const currentTime = audioRef?.current.currentTime;
         setCurrentTime(currentTime);
     }
 
     return (
-        <div className={styles.container}>
+        <div className={`
+        ${darkTheme ? styles.dark_theme : ''}
+        ${styles.container}
+        `}>
             <div className={styles.player}>
                 {/* display an image with animation */}
                 <Display
@@ -59,7 +71,7 @@ const Player = () => {
                         src={songSrc}
                         onTimeUpdate={handleTimeUpdate}
                         onEnded={() => {
-                            handleAutoPlay(audioRef, setIsPlaying);
+                            handleAutoPlay(audioRef, setSongSrc, setSongData, setIsPlaying);
                         }}
                         muted={muted}
                         loop={infinityLoop}
@@ -76,7 +88,7 @@ const Player = () => {
                     duration={duration}
                     currentTime={currentTime}
                 />
-                {/* component to set up the current time */}
+                {/* component to control playback */}
                 <Controls
                     isPlaying={isPlaying}
                     setIsPlaying={setIsPlaying}
@@ -87,13 +99,14 @@ const Player = () => {
                 {/* component to insert an audio file to play a song */}
                 <div className={styles.buttons}>
                     <InputFile
-                        setSongSrc={setSongSrc}
-                        setFileObj={setFileObj}
-                        fileObj={fileObj}
                     />
+                    {/* add a song into playlist */}
                     <button
+                        className={`
+                    ${darkTheme ? styles.dark_theme_btn : ''}
+                    `}
                         type="button"
-                        onClick={() => addToPlayList(fileObj)}
+                        onClick={() => addToPlayList(songData)}
                     >
                         Adicionar à playlist
                         <PiPlaylistDuotone />

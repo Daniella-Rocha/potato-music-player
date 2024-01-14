@@ -1,9 +1,15 @@
+import { useContext } from 'react';
+
+import { ThemeContext } from '../../contexts/ThemeContext/ThemeContext';
+
 import useTimeFormatter from '../../hooks/useTimeFormatter';
 
 import styles from './ProgressBar.module.css';
 
 const ProgressBar = ({ audioRef, currentTime, duration, setCurrentTime }) => {
-    
+
+    const { darkTheme } = useContext(ThemeContext);
+
     const { timeFormatter } = useTimeFormatter();
 
     // function to change input range value on seeking the progress bar
@@ -28,7 +34,10 @@ const ProgressBar = ({ audioRef, currentTime, duration, setCurrentTime }) => {
                 onChange={(e) => handleSeek(e)}
             />
             {/* display the song's current time and duration */}
-            <div className={styles.music_time}>
+            <div className={`
+                ${styles.music_time}
+                ${darkTheme ? styles.dark_theme : ''}
+                `}>
                 <span>{timeFormatter(currentTime)}</span>
                 <span>{timeFormatter(duration)}</span>
             </div>

@@ -1,15 +1,21 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+
+import { ThemeContext } from "../../contexts/ThemeContext/ThemeContext";
+
+import styles from './ChangeTheme.module.css';
+
 const ChangeTheme = () => {
 
-    const [checked, setChecked] = useState(false);
-
-    const handleChange = (event) => {
-        setChecked(event.target.checked);
-    }
+    const { switchTheme, darkTheme } = useContext(ThemeContext);
 
     return (
-        <div>
-            <button type="button">mudar tema</button>
+        <div className={styles.change_theme}>
+            <button
+                type="button"
+                onClick={() => switchTheme()}
+            >
+               {darkTheme ? 'Tema claro' : 'Tema escuro'}
+            </button>
         </div>
     )
 }
